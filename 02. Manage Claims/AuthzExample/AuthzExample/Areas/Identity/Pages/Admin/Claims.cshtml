@@ -1,0 +1,74 @@
+﻿@page "{id?}"
+@model AuthzExample.Areas.Identity.Pages.Admin.ClaimsModel
+@{
+    int FormId = 0;
+}
+
+<div asp-validation-summary="All" class="text-danger m-2"></div>
+
+<table class="table table-sm table-striped table-bordered">
+    <thead><tr><th>Type</th><th>Value</th><th>Modify</th></tr></thead>
+    <tbody>
+
+        @foreach (var c in Model.Claims)
+        {
+            FormId++;
+
+            <tr>
+                <td>@c.Type</td>
+                <td>@c.Value</td>
+                <td>
+                    <form method="post" id=@("editForm"+FormId)>
+                        <input type="hidden" name="type" value="@c.Type" />
+                        <input type="hidden" name="oldValue" value="@c.Value" />
+                        <input class="form-control" name="value" value="@c.Value" />
+                    </form>
+                </td>
+                <td>
+
+                <button type="submit" form=@("editForm"+FormId)
+                        class="btn btn-sm btn-warning"
+                        asp-page-handler="editClaim">
+                    Edit
+                </button>
+
+                <button type="submit" form=@("editForm"+FormId)
+                        class="btn btn-sm btn-danger"
+                        asp-page-handler="DeleteClaim">
+                    Delete
+                </button>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<h1>Add New Claim</h1>
+<form method="post" id="addForm">
+    <div class="row">
+        <div class="col">
+            <select class="form-control" name="type">
+                @foreach (var claimType in
+                           ApplicationClaimTypes.AppClaimTypes)
+                {
+                    <option value="@claimType">
+                        @claimType
+                    </option>
+                }
+            </select>
+        </div>
+
+        <div class="col">
+            <input class="form-control" name="value" />
+        </div>
+
+        <div class="col">
+            <button asp-page-handler="AddClaim" type="submit"
+                    class="btn btn-sm btn-success">
+                Add
+            </button>
+        </div>
+    </div>
+</form>

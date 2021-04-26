@@ -1,0 +1,25 @@
+﻿@page
+@model AuthzExample.Areas.Identity.Pages.Admin.UsersModel
+@{
+}
+<div class="m-2">
+
+    <table class="table table-sm table-striped table-bordered">
+        <thead>
+            <tr><th>Username</th><th>Normalized</th><th /></tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>@user.NormalizedUserName</td>
+                    <td>
+                        <a asp-page="Claims" asp-route-id="@user.Id">Manage Claims</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
